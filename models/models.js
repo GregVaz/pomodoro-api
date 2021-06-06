@@ -6,8 +6,11 @@ module.exports = (wagner) => {
     mongoose.connect('mongodb://localhost:27017/pomodoro', {useUnifiedTopology: true, useNewUrlParser: true});
 
     wagner.factory('db', () => mongoose);
+    const User = require('./user.model');
 
-    const models = {};
+    const models = {
+        User
+    };
 
     _.each(models, (v, k) => {
         wagner.factory(k, () => v);

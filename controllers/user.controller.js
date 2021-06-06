@@ -2,6 +2,7 @@ const handler = require('../utils/handler');
 const bcrypt = require('bcryptjs');
 const status = require('http-status');
 const jwt = require('jsonwebtoken');
+const _config = require('../_config');
 
 let _user;
 let token;
@@ -21,23 +22,22 @@ const getById = (req, res) => {
 };
 
 const login = (req,res) => {
-    const user = req.body;
-    const myPassword = user.password;
+    const { email, password } = req.body;
 
-    _user.findOne({ email: user.email }).sort({}).then(data => {
+    _user.findOne({ email: email }).sort({}).then(data => {
         //Validar si el email existe en la BD
         if(!data){
             res.status(status.NOT_FOUND);
             res.json({ msg: 'Correo y/o contraseña incorrectos' });
         }else{
             const hash = data.password;
-            if(!bcrypt.compareSync(myPassword, hash)){
+            if(!bcrypt.compareSync(password, hash)){
                 res.status(status.UNAUTHORIZED);
                 res.json({ msg: 'Contraseña incorrecta' });
             }else{
                 //En este punto el usuario y la contraseña son correctos entonces podemos otorgar un token
                 const payload = { admin: true };
-                token = jwt.sign(payload, 'secret', { expiresIn: '24h' });
+                token = jwt.sign(payload, _config.secret, { expiresIn: '24h' });
                 // Retorna la información incluido el json token
                 res.json({
                     token: token,
@@ -58,7 +58,7 @@ const login = (req,res) => {
 const createUser = (req, res) => {
     const user = req.body;
     const myPlaintextPassword = user.password;
-
+    console.log(user);
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(myPlaintextPassword, salt);
 

@@ -11,7 +11,7 @@ module.exports = (wagner) => {
     router.post('/login', (req,res) =>
       userController.login(req,res));
 
-    router.post('/crear', (req, res) =>
+    router.post('/signup', (req, res) =>
       userController.createUser(req, res));
 
     router.put('/:id', (req, res) =>

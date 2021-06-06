@@ -4,6 +4,7 @@ const wagner = require('wagner-core');
 
 // MODELS
 require('./models/models')(wagner);
+const user = require('./router/user.router.js')(wagner);
 
 let app = express();
 
@@ -20,6 +21,8 @@ app.use(function(req, res, next) {
 
 // ROUTERS
 // path ue van a ser atendidas. 
-const uri = `/api/`;
+const uri = `/api/v1/`;
+
+app.use(uri, user);
 
 module.exports = app;
