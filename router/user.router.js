@@ -14,6 +14,9 @@ module.exports = (wagner) => {
     router.post('/signup', (req, res) =>
       userController.createUser(req, res));
 
+    router.post('/validate', (req, res) =>
+      userController.validateSession(req, res));
+
     router.put('/:id', (req, res) =>
       userController.updateById(req, res));
 

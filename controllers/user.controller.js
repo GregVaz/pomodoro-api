@@ -36,7 +36,7 @@ const login = (req,res) => {
                 res.json({ msg: 'Contraseña incorrecta' });
             }else{
                 //En este punto el usuario y la contraseña son correctos entonces podemos otorgar un token
-                const payload = { admin: true };
+                const payload = { data };
                 token = jwt.sign(payload, _config.secret, { expiresIn: '24h' });
                 // Retorna la información incluido el json token
                 res.json({
@@ -110,6 +110,21 @@ const updateById = (req, res) => {
     });
 };
 
+const validateSession = (req, res) => {
+    const { token } = req.body;
+
+    try {
+        const decoded = jwt.verify(token, _config.secret);
+        if (decoded) {
+            res.status(status.OK).json({session: true});
+        } else {
+            res.status(status.BAD_REQUEST).json({session: false});
+        }
+    } catch(err) {
+        res.status(status.BAD_REQUEST).json({session: false});
+    }
+};
+
 module.exports = (User) => {
     _user = User;
     return ({
@@ -118,5 +133,6 @@ module.exports = (User) => {
       createUser,
       updateById,
       deleteById,
+      validateSession
     });
 }
