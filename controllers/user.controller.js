@@ -41,7 +41,7 @@ const login = (req,res) => {
                 // Retorna la información incluido el json token
                 res.json({
                     token: token,
-                    user: {name: data.name, controlNumber: data.controlNumber, email: data.email}
+                    user: {_id: data._id, name: data.name, controlNumber: data.controlNumber, email: data.email}
                 });
             }
         }

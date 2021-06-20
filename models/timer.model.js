@@ -5,12 +5,17 @@ let timersSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    time: {
+    minutes: {
+        type: String,
+        require: true
+    },
+    seconds: {
         type: String,
         require: true
     },
     type: {
-        type: Number
+        type: Number,
+        required: true
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,

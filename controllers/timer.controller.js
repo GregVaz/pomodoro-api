@@ -7,7 +7,7 @@ const getByType = (req, res) => {
     const { type } = req.params;
     _timer.find({ type: type })
         .sort({})
-        .exec(handler.handleOne.bind(null, 'timer', res));
+        .exec(handler.handleOne.bind(null, 'timers', res));
 };
 
 const createTimer = (req, res) => {
